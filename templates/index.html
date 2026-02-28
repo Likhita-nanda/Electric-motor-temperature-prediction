@@ -1,1 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor Performance Analytics | Predictive Maintenance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --accent: #10b981;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --input-bg: #0f172a;
+            --safe: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0, transparent 50%);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .header {
+            text-align: left;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1.5rem;
+        }
+
+        .header h2 {
+            margin: 0;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header h2 i { color: var(--primary); }
+
+        .header p {
+            color: var(--text-muted);
+            margin: 8px 0 0 0;
+            font-size: 0.9rem;
+        }
+
+        .section-label {
+            grid-column: span 2;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--primary);
+            font-weight: 700;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-label::after {
+            content: "";
+            height: 1px;
+            background: var(--border);
+            flex-grow: 1;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 12px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+        }
+
+        button {
+            grid-column: span 2;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Result States */
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            animation: slideUp 0.4s ease-out;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .status-safe { background: rgba(16, 185, 129, 0.1); border-color: var(--safe); --status-color: var(--safe); }
+        .status-warning { background: rgba(245, 158, 11, 0.1); border-color: var(--warning); --status-color: var(--warning); }
+        .status-danger { background: rgba(239, 68, 68, 0.1); border-color: var(--danger); --status-color: var(--danger); }
+
+        .result-meta {
+            font-size: 0.8rem;
+            color: var(--status-color);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .result h3 {
+            margin: 0;
+            color: #fff;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .status-icon { color: var(--status-color); font-size: 1.8rem; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 580px) {
+            .form-grid { grid-template-columns: 1fr; }
+            button, .section-label { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2><i class="fa-solid fa-microchip"></i> Motor Performance Analytics</h2>
+        <p>Real-time Permanent Magnet temperature estimation & health monitoring.</p>
+    </div>
+    
+    <form action="/predict" method="post">
+        <div class="form-grid">
+            <span class="section-label">Ordered Input Parameters</span>
+            
+            <div class="input-group">
+                <label>Quadrature Voltage (u_q)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-bolt"></i>
+                    <input type="number" step="any" name="u_q" placeholder="0.00" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Coolant Temp</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-droplet"></i>
+                    <input type="number" step="any" name="coolant" placeholder="°C" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Direct Voltage (u_d)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                    <input type="number" step="any" name="u_d" placeholder="0.00" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Motor Speed</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-rotate"></i>
+                    <input type="number" step="any" name="motor_speed" placeholder="RPM" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Direct Current (i_d)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <input type="number" step="any" name="i_d" placeholder="0.00" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Quadrature Current (i_q)</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-gauge"></i>
+                    <input type="number" step="any" name="i_q" placeholder="0.00" required>
+                </div>
+            </div>
+
+            <div class="input-group" style="grid-column: span 2;">
+                <label>Ambient Temperature</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-wind"></i>
+                    <input type="number" step="any" name="ambient" placeholder="°C" required>
+                </div>
+            </div>
+
+            <button type="submit">
+                <i class="fa-solid fa-magnifying-glass-chart"></i>
+                Generate Prediction
+            </button>
+        </div>
+    </form>
+
+    {% if prediction_text %}
+    <div id="resultCard" class="result">
+        <span id="statusLabel" class="result-meta">Predicted Status</span>
+        <h3>
+            <i id="statusIcon" class="fa-solid fa-temperature-half status-icon"></i>
+            <span id="tempValue">{{ prediction_text }}</span>
+        </h3>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.getElementById('resultCard');
+            const label = document.getElementById('statusLabel');
+            const icon = document.getElementById('statusIcon');
+            const valText = document.getElementById('tempValue').innerText;
+            
+            const temp = parseFloat(valText.match(/[+-]?\d+(\.\d+)?/));
+
+            if (!isNaN(temp)) {
+                if (temp < 80) {
+                    card.className = 'result status-safe';
+                    label.innerText = 'System Health: Nominal';
+                    icon.className = 'fa-solid fa-circle-check status-icon';
+                } else if (temp >= 80 && temp <= 120) {
+                    card.className = 'result status-warning';
+                    label.innerText = 'System Health: Thermal Warning';
+                    icon.className = 'fa-solid fa-triangle-exclamation status-icon';
+                } else {
+                    card.className = 'result status-danger';
+                    label.innerText = 'System Health: Critical / Danger';
+                    icon.className = 'fa-solid fa-radiation status-icon';
+                }
+            }
+        });
+    </script>
+    {% endif %}
+</div>
+
+</body>
+</html>
