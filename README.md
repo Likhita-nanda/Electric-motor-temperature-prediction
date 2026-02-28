@@ -1,4 +1,4 @@
-Electric Motor Temperature Prediction Web App
+⚡Electric Motor Temperature Prediction Web App
 
 
 -> Project Description
@@ -19,7 +19,7 @@ Ambient temperature
 
 The trained model is integrated into a Flask web application, where users can input motor parameters and get predicted temperature instantly.
 
--> Machine Learning Model
+🧠 Machine Learning Model
 
 Algorithm: Random Forest Regressor
 
@@ -43,7 +43,7 @@ Final Features Used for Prediction:
 
 7. ambient
 
--> Web Application
+🌐 Web Application
 
 The Flask app allows users to:
 
@@ -53,7 +53,7 @@ Click Predict
 
 View predicted motor temperature
 
--> How to Run the Project
+▶️ How to Run the Project
 Step 1: Install Required Libraries
 pip install numpy pandas scikit-learn flask joblib
 Step 2: Make Sure These Files Exist
@@ -72,7 +72,8 @@ python app.py
 Open browser:
 
 http://127.0.0.1:5000
--> Project Structure
+
+📂 Project Structure
 ```Electric-Motor-Temperature-Prediction/
 │
 ├── Templates
@@ -80,4 +81,16 @@ http://127.0.0.1:5000
 ├── app.py
 ├── model.save
 ├── transform.save
-├── README.md 
+├── README.md
+```
+🎯 Sample Input
+Feature	Example Value
+u_q	55
+coolant	26
+u_d	-35
+motor_speed	3200
+i_d	-15
+i_q	20
+ambient	28
+
+Predicted PM Temperature: ~68°C
