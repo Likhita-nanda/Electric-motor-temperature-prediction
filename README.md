@@ -84,13 +84,21 @@ http://127.0.0.1:5000
 ├── README.md
 ```
 🎯 Sample Input
+
 Feature	Example Value
+
 u_q	55
+
 coolant	26
+
 u_d	-35
+
 motor_speed	3200
+
 i_d	-15
+
 i_q	20
+
 ambient	28
 
 Predicted PM Temperature: ~68°C
