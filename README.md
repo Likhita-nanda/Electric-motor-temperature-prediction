@@ -1,4 +1,6 @@
 Electric Motor Temperature Prediction Web App
+
+
 -> Project Description
 
 This project predicts the permanent magnet (PM) temperature of an electric motor using Machine Learning.
