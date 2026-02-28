@@ -27,19 +27,19 @@ Target Variable: pm (motor temperature in °C)
 
 Final Features Used for Prediction:
 
-u_q
+1. u_q
 
-coolant
+2. coolant
 
-u_d
+3. u_d
 
-motor_speed
+4. motor_speed
 
-i_d
+5. i_d
 
-i_q
+6. i_q
 
-ambient
+7. ambient
 
 -> Web Application
 
@@ -73,7 +73,9 @@ http://127.0.0.1:5000
 -> Project Structure
 ```Electric-Motor-Temperature-Prediction/
 │
+├── Templates
+   ├──index.html
 ├── app.py
 ├── model.save
 ├── transform.save
-├── README.md ```
+├── README.md 
